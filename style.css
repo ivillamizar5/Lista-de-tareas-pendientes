@@ -1,4 +1,110 @@
-.completado{
-    text-decoration: line-through;
-    background-color: bisque;
+
+*{
+    font-size: 1rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+body{
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2a465b;
+}
+
+h1{
+    text-align: center;
+    font-size: 2rem;
+}
+
+#formTarea{
+   
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+#tarea{
+    padding: 6px;
+    width: 80%;
+}
+
+#agregar{
+    margin-top: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #15139e;
+    color: white;
+}
+.estado{
+    margin-right: 10px;
+}
+
+.lista{
+    margin-top: 50px;
+}
+
+main{
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid black ;
+    width: 500px;
+    height: 600px;
+    overflow-y: auto;
+    background-color: white;
+}
+
+ul{
+    list-style-type: none; 
+    padding: 0;
+}
+
+li{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+
+
+.eliminar {
+  
+    width: 20px;
+    height: 20px;
+    background-image: url('./img/basura.png');
+    background-size: cover; 
+    background-position: center;  
+    background-color:white ;
+    background-repeat: no-repeat; 
+    border: none;
+    cursor: pointer; 
+    color: white; 
+  }
+
+  .estado {
+    width: 20px;
+    height: 20px;
+    background-image: url('./img/cheque.png');
+    background-size: cover; 
+    background-position: center;  
+    background-color:white ;
+    background-repeat: no-repeat; 
+    border: none;
+    cursor: pointer; 
+    color: white; 
+  }
+  
+
+div{
+    height: auto;
+}
+
+
+.cambiaColor{
+    
+    opacity: 0.5;
 }

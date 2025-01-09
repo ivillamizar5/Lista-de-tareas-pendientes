@@ -1,47 +1,98 @@
+const inputTarea = document.getElementById("tarea");
+const btnAgregar = document.getElementById("agregar");
+const formTarea = document.getElementById("formTarea");
+const listaTareas = document.getElementById("listaTareas");
 
-const tarea = document.getElementById("tarea");
-const formulario = document.getElementById("formulario");
-const lista = document.getElementById("lista");
-const eliminar = document.getElementById("eliminar");
 
 
-const arrayLista = []
-
-const agregarTarea = (e)=>{
-    e.preventDefault()
-    arrayLista.push({nombre:tarea.value,estado:true}); // ingreso el nombre de la tarea e ingreso el estado inicial en false
-    localStorage.setItem("listaTareas", JSON.stringify(arrayLista));
-    mostrarTarea(); 
+function  validarSiHayTareas(){
+    if(localStorage.getItem("listaTareas") === null || JSON.parse(localStorage.getItem("listaTareas")).length === 0 ){
+        listaTareas.textContent = "No hay tareas"
+    }else{
+        mostrarTareas();
+    }
 }
 
 
-const eliminarTarea = (e)=>{
-    let indice = e.target.attributes.class.value
-    let arreglo = arrayLista.splice(indice,1)
-    console.log(arreglo)
-    //mostrarTarea(); 
+const agregarTarea=(e)=>{
+    e.preventDefault();
+    const tarea = {
+        nombre:inputTarea.value,
+        estado: false,
+    }
+    if(localStorage.getItem("listaTareas") === null){
+        let arrayTareas = [];
+        arrayTareas.push(tarea);
+        localStorage.setItem("listaTareas",JSON.stringify(arrayTareas));
+    }else{
+        let traerTareas = JSON.parse(localStorage.getItem("listaTareas"));
+        traerTareas.push(tarea);
+        localStorage.setItem("listaTareas",JSON.stringify(traerTareas)) 
+    }
+
+    inputTarea.value="";
+    mostrarTareas();
 }
 
-lista.addEventListener("click", eliminarTarea)
+const mostrarTareas= () =>{
+   
+    let traerTareas = JSON.parse(localStorage.getItem("listaTareas"));
+    let lista = "";
+    listaTareas.textContent = ""
 
-
-const mostrarTarea =()=>{
-    const div = document.createElement("div");
-    div.classList.add("tarea")
-
-    arrayLista.forEach((el, id)=> {
-
-        if (el.estado === false ){
-            div.innerHTML =`  <p> ${el.nombre}  </p>  <button id ="sinCompletar"> Sin Completado </button> <button id="eliminar" class="${id}"> Eliminar </button>`
-        }else{
-            div.classList.add("completado")
-            div.innerHTML =`  <p> ${el.nombre}  </p>  <button id = "completado"> Completado </button> <button id="eliminar" class="${id}"> Eliminar </button>`
+        for (let i = 0; i < traerTareas.length; i++) {
+            lista = document.createElement("li");
+            
+            if(traerTareas[i].estado === true){
+                lista.classList.add("cambiaColor");
+            }
+            lista.innerHTML = `${traerTareas[i].nombre} <button class = "estado" >  </button> <button class="eliminar" " ></button>`
+           
+            listaTareas.appendChild(lista)
         }
+   
     
-        lista.appendChild(div)
-    })
+}
 
 
+
+listaTareas.addEventListener("click", (e) => {
+    if (e.target.classList.contains("eliminar")) {
+        // Obtener el índice de la tarea
+        const index = Array.from(listaTareas.children).indexOf(e.target.parentElement);
+
+        // Llamar a la función eliminar con el índice
+        eliminar(index);
+    }
+
+    if (e.target.classList.contains("estado")) {
+        // Obtener el índice de la tarea
+        const index = Array.from(listaTareas.children).indexOf(e.target.parentElement);
+
+        // Llamar a la función eliminar con el índice
+        tareaCompletada(index);
+    }
+
+     validarSiHayTareas();
+});
+
+
+const tareaCompletada = (id)=>{
+        let traerTareas = JSON.parse(localStorage.getItem("listaTareas"));
+        console.log(traerTareas[id].estado = true);
+        console.log(traerTareas)
+        localStorage.setItem("listaTareas",JSON.stringify(traerTareas));
+        mostrarTareas();
+}
+
+
+
+function eliminar(id){
+ 
+        let traerTareas = JSON.parse(localStorage.getItem("listaTareas"));
+         traerTareas.splice(id,1);
+         localStorage.setItem("listaTareas",JSON.stringify(traerTareas));
+         mostrarTareas(); // al eliminar vuelvo a mostrar la lista de tareas
 
 }
 
@@ -49,24 +100,5 @@ const mostrarTarea =()=>{
 
 
 
-
-
-
-
-
-
-formulario.addEventListener("submit",agregarTarea);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+formTarea.addEventListener("submit",agregarTarea);
+validarSiHayTareas();
